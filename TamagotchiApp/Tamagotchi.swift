@@ -14,6 +14,7 @@ class Tamagotchi:ObservableObject {
     @Published var happiness: Int
     @Published var isIll: Bool
     @Published var age: Int
+    @Published var deathConstant: Int
     //Toilet-related
     @Published var needsToilet: Bool
     @Published var cleanUpRequired: Bool
@@ -29,6 +30,7 @@ class Tamagotchi:ObservableObject {
         self.pooCounter = 0
         self.cleanUpRequired = false
         self.age = 0
+        self.deathConstant = 1000
     }
     
     func eatSnack() {
@@ -54,6 +56,7 @@ class Tamagotchi:ObservableObject {
         if needsToilet == true {
             pooCounter += 1
             cleanUpRequired = true
+            deathConstant -= 100
         } else {
             needsToilet = true
         }
@@ -65,6 +68,7 @@ class Tamagotchi:ObservableObject {
         }
         if pooCounter == 0{
             cleanUpRequired = false
+            deathConstant += 100
         }
         needsToilet = false
     }
@@ -74,15 +78,14 @@ class Tamagotchi:ObservableObject {
     }
     
     func checkHealth() {
-        let chanceOfDeath = Int.random(in: 1..<100)
-        if chanceOfDeath >= 98 {
+        let chanceOfDeath = Int.random(in: 1..<deathConstant)
+        if chanceOfDeath <= 10 {
             isDead = true
         }
     }
     
     func displayStats() -> String {
         return """
-            Alive: \(isDead ? "No" : "Yes")
             Age: \(age) years
             Hunger: \(hunger)
             Weight: \(weight)lb

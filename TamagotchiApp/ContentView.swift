@@ -29,6 +29,8 @@ struct ContentView: View {
                 }
             
             Form{
+                Text("I am \(tamagotchi.isDead ? "dead" : "alive")")
+                    .foregroundColor(.red)
                 VStack(alignment: .leading, spacing: 20) {
                     Text(tamagotchi.displayStats())
                 }
